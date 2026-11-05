@@ -1,2 +1,6 @@
 .DS_Store
 _test.html
+relay/node_modules/
+relay/.cloudflare/
+.claude/
+.wrangler/
