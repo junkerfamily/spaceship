@@ -359,6 +359,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-o
     </div>
     <div class="tools">
       <button class="tool linkbtn" id="linkBtn" type="button" hidden><span class="ldot" id="ldot"></span>WINDOW <b id="linkCode">----</b></button>
+      <button class="tool" id="viewBtn" type="button" hidden title="Switch this screen to the cockpit window view">COCKPIT VIEW ›</button>
       <button class="tool" id="soundBtn" type="button" aria-pressed="true">SOUND ON</button>
       <button class="tool" id="fsBtn" type="button">FULL SCREEN</button>
     </div>
@@ -1777,6 +1778,13 @@ if (LINK_OK) {
   $('#pairClose').addEventListener('click', () => { sfx.beep(); pairWrap.hidden = true; });
   $('#pairNew').addEventListener('click', () => { sfx.beep(); newCode(); linkConnect(); sys(`New window code: ${missionCode}.`); });
   pairWrap.addEventListener('click', e => { if (e.target === pairWrap) pairWrap.hidden = true; });
+  // Switch this screen to the cockpit window, already paired with this mission's code
+  const viewBtn = $('#viewBtn');
+  viewBtn.hidden = false;
+  viewBtn.addEventListener('click', () => {
+    if (S.phase !== 'pad' && S.phase !== 'landed' && !confirm('Leave mission control? The flight on this screen will stop.')) return;
+    sfx.press(); location.href = windowUrl + '#' + missionCode;
+  });
   linkConnect();
 }
 
